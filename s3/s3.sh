@@ -14,6 +14,7 @@ aws s3api put-object --bucket devops90-cli-bucket --content-type image/jpeg --ke
 
 #disable block public access (unblock)
 aws s3api delete-public-access-block --bucket devops90-cli-bucket
+https://aws.plainenglish.io/s3-error-accesscontrollistnotsupported-358cc5b27e15
 
 #make the image file accessible for the world
 aws s3api put-object-acl --bucket devops90-cli-bucket --key codeDeploy_in_action.jpg --grant-read uri=http://acs.amazonaws.com/groups/global/AllUsers
