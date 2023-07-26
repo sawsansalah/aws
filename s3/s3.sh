@@ -1,5 +1,7 @@
 #create new bucket
 aws s3api create-bucket --bucket devops90-cli-bucket --region eu-north-1 --create-bucket-configuration LocationConstraint=eu-north-1
+note LocationConstraint -> (string)
+Specifies the Region where the bucket will be created. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1).
 
 #get list of all available buckets in the default region of the current user
 aws s3 ls
