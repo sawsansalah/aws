@@ -1,6 +1,8 @@
 #create key
 aws ec2 create-key-pair --key-name devops90-cli-key --key-format ppk --query 'KeyMaterial' --output text > devops90-cli-key.ppk
 
+note : a query is a type of parameter that you can use to filter the results of a command that returns JSON-formatted output.
+
 
 #create security group
 aws ec2 create-security-group --group-name devops90-sg --description 'from cli' --query 'GroupId'
