@@ -1,5 +1,7 @@
 #create key
 aws ec2 create-key-pair --key-name devops90-cli-key --key-format ppk --query 'KeyMaterial' --output text > devops90-cli-key.ppk
+aws ec2 create-key-pair --key-name devops900-cli-key --key-format pem --query 'KeyMaterial' --output text > devops900-cli-key.pem
+
 
 note : a query is a type of parameter that you can use to filter the results of a command that returns JSON-formatted output.
 
