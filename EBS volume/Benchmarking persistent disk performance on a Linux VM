@@ -1,0 +1,58 @@
+EBS volume
+
+IOPS stands for Input/Output Operations Per Second, which is a measurement of the number of input/output operations that a storage device can perform in a second. This is an important metric for measuring the performance of storage devices such as hard disk drives (HDDs), solid-state drives (SSDs), and network-attached storage (NAS) devices.
+Higher IOPS generally indicate faster storage performance, which can translate into faster application response times and improved user experience.
+
+Max Throughput refers to the maximum amount of data that can be transferred per unit of time, typically measured in bits or bytes per second.
+This is an important metric for measuring the performance of network devices such as routers, switches, and network interface cards (NICs). Higher Max Throughput generally indicates faster network performance, which can improve the speed and reliability of data transfer between devices.
+
+Install dependencies:
+
+sudo apt update
+sudo apt install -y fio
+
+In the terminal, list the disks that are attached to your VM and find the disk that you want to test. If your persistent disk is not yet formatted, format and mount the disk.
+
+
+sudo lsblk
+
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda      8:0    0   10G  0 disk
+└─sda1   8:1    0   10G  0 part /
+sdb      8:32   0  2.5T  0 disk /mnt/disks/mnt_dir
+
+Create a new directory, fiotest, on the disk. In this example, the disk is mounted at /mnt/disks/mnt_dir:
+
+
+TEST_DIR=/mnt/disks/mnt_dir/fiotest
+sudo mkdir -p $TEST_DIR
+Test write throughput by performing sequential writes with multiple parallel streams (16+), using an I/O block size of 1 MB and an I/O depth of at least 64:
+
+
+sudo fio --name=write_throughput --directory=$TEST_DIR --numjobs=16 \
+--size=10G --time_based --runtime=60s --ramp_time=2s --ioengine=libaio \
+--direct=1 --verify=0 --bs=1M --iodepth=64 --rw=write \
+--group_reporting=1 --iodepth_batch_submit=64 \
+--iodepth_batch_complete_max=64
+Test write IOPS by performing random writes, using an I/O block size of 4 KB and an I/O depth of at least 256:
+
+
+ sudo fio --name=write_iops --directory=$TEST_DIR --size=10G \
+--time_based --runtime=60s --ramp_time=2s --ioengine=libaio --direct=1 \
+--verify=0 --bs=4K --iodepth=256 --rw=randwrite --group_reporting=1  \
+--iodepth_batch_submit=256  --iodepth_batch_complete_max=256
+Test read throughput by performing sequential reads with multiple parallel streams (16+), using an I/O block size of 1 MB and an I/O depth of at least 64:
+
+
+sudo fio --name=read_throughput --directory=$TEST_DIR --numjobs=16 \
+--size=10G --time_based --runtime=60s --ramp_time=2s --ioengine=libaio \
+--direct=1 --verify=0 --bs=1M --iodepth=64 --rw=read \
+--group_reporting=1 \
+--iodepth_batch_submit=64 --iodepth_batch_complete_max=64
+Test read IOPS by performing random reads, using an I/O block size of 4 KB and an I/O depth of at least 256:
+
+
+sudo fio --name=read_iops --directory=$TEST_DIR --size=10G \
+--time_based --runtime=60s --ramp_time=2s --ioengine=libaio --direct=1 \
+--verify=0 --bs=4K --iodepth=256 --rw=randread --group_reporting=1 \
+--iodepth_batch_submit=256  --iodepth_batch_complete_max=256
