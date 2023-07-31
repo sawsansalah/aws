@@ -20,3 +20,7 @@ aws ec2 attach-volume  --region us-east-1   --volume-id vol-0cfa184fbef5ec423 --
 
 # sudo fio --name=write_iops  --size=4G --time_based --runtime=60s --ramp_time=2s --ioengine=libaio --direct=1 --verify=0 --bs=16k --iodepth=256 --rw=randwrite --group_reporting=1  --iodepth_batch_submit=256  --iodepth_batch_complete_max=256
 #  sudo fio --name=write_iops  --size=4G --time_based --runtime=60s --ramp_time=2s --ioengine=libaio --direct=1 --verify=0 --bs=1M --iodepth=256 --rw=randwrite --group_reporting=1  --iodepth_batch_submit=256  --iodepth_batch_complete_max=256
+
+
+#Delete Volume 
+aws ec2 delete-volume --volume-id vol-0cfa184fbef5ec423
