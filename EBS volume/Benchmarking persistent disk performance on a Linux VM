@@ -6,6 +6,8 @@ Higher IOPS generally indicate faster storage performance, which can translate i
 Max Throughput refers to the maximum amount of data that can be transferred per unit of time, typically measured in bits or bytes per second.
 This is an important metric for measuring the performance of network devices such as routers, switches, and network interface cards (NICs). Higher Max Throughput generally indicates faster network performance, which can improve the speed and reliability of data transfer between devices.
 
+durability refers to the ability of a storage medium or device to retain data over an extended period of time, without suffering from data loss or corruption.
+
 Install dependencies:
 
 sudo apt update
