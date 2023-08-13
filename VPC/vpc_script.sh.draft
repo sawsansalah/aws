@@ -1,0 +1,19 @@
+#!/bin/bash
+# create vpc 10.0.0.0/16
+#------------------------------
+# create first-public-subnet in first zone Az1
+# create second-public-subnet in second zone Az2
+# create first-private-subnet in first zone Az1
+# create second-private-subnet in second zone Az2
+#------------------------------
+# create internet Gateway
+# Attatch the internet Gateway to vpc 
+#------------------------------
+# create public route table 
+# Assoicate public route table to public subnets 
+#------------------------------
+# create private route table 
+# Assoicate public route table to 
+
+
+
