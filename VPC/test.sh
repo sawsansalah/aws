@@ -36,7 +36,6 @@ if [ "$subnet_check" == "" ];then
         --cidr-block 10.0.1.0/24 \
         --tag-specifications ResourceType=subnet,Tags="[{Key=Name,Value=Devops-public-zone-1}]" \
         --availability-zone eu-north-1a	 \
-        --availability-zone-id eun1-az1   \
         --output json)
     subnet_id=$(echo $subnet_result |  grep -oP '(?<="SubnetId": ")[^"]*')   
     echo $subnet_id 
