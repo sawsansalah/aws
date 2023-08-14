@@ -34,7 +34,7 @@ if [ "$subnet_check" == "" ];then
     subnet_result=$(aws ec2 create-subnet \
         --vpc-id $vpc_id \
         --cidr-block 10.0.1.0/24 \
-        --tag-specificatio1s ResourceType=subnet,Tags="[{Key=Name,Value=Devops-public-zone-1}]" \
+        --tag-specifications ResourceType=subnet,Tags="[{Key=Name,Value=Devops-public-zone-1}]" \
         --availability-zone eu-north-1a	 \
         --availability-zone-id eun1-az1   \
         --output json)
