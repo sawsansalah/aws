@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 # create vpc 10.0.0.0/16
 vpc_result=$(aws ec2 create-vpc \
     --cidr-block 10.0.0.0/16 \
