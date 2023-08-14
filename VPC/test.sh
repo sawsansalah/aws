@@ -23,10 +23,12 @@ if [ "$vpc_check" == "" ]; then
     echo "vpc created "
 else
     echo "VPC already exsit"
+    vpc_id=$vpc_check
+    echo $vpc_id
 fi  
 #---------------------------------------------
 # create first-public-subnet in first zone Az1
-subnet_check=$(aws ec2 describe-subnets --region eu-north-1 --filters --filters  Name=tag:Name,Values=Devops-public-zone-1 | grep -oP '(?<="SubnetId": ")[^"]*')
+subnet_check=$(aws ec2 describe-subnets --region eu-north-1  --filters  Name=tag:Name,Values=Devops-public-zone-1 | grep -oP '(?<="SubnetId": ")[^"]*')
 if [ "$subnet_check" == "" ];then
     echo "subnet 1 will be created... "
     subnet_result=$(aws ec2 create-subnet \
