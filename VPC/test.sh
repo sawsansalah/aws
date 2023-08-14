@@ -21,5 +21,5 @@ if [$"vpc_check" == ""],then
 
     echo "vpc created "
 else
-  echo "VPC already exsit"
+    echo "VPC already exsit"
 fi  
