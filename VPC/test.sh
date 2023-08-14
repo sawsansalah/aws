@@ -1,7 +1,9 @@
 #!/bin/bash
+#check vpc if found or not 
+vpc_check=$(aws ec2 describe-vpcs --filters tag Name=Name,Value=Devops90-vpc | grep -oP '(?<="VpcId": ")[^"]*')
 # create vpc 10.0.0.0/16
 vpc_result=$(aws ec2 create-vpc \
-    --cidr-block 10.0.0.0/15 \
+    --cidr-block 10.0.0.0/16 \
     --tag-specification ResourceType=vpc,Tags="[{Key=Name,Value=Devops90-vpc}]" \
     --region eu-north-1 \
     --output json)
