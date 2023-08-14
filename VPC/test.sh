@@ -15,3 +15,5 @@ if ["$vpc_id" == ""];then
    echo "Error in creating vpc"
    exit 1 
 fi    
+
+echo "vpc created "
