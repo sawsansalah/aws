@@ -14,7 +14,7 @@ if [ "$vpc_check" == "" ]; then
     echo $vpc_id
 
     # Allow Error handling per vpc_id
-    if [ "$vpc_id" == " ]; then
+    if [ "$vpc_id" == ""]; then
     echo "Error in creating vpc"
     exit 1 
     fi    
