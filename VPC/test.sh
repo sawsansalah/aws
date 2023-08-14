@@ -28,23 +28,36 @@ else
 fi  
 #---------------------------------------------
 # create first-public-subnet in first zone Az1
-subnet_check=$(aws ec2 describe-subnets --region eu-north-1  --filters  Name=tag:Name,Values=Devops-public-zone-1 | grep -oP '(?<="SubnetId": ")[^"]*')
-if [ "$subnet_check" == "" ];then
-    echo "subnet 1 will be created... "
-    subnet_result=$(aws ec2 create-subnet \
-        --vpc-id $vpc_id \
-        --cidr-block 10.0.1.0/24 \
-        --tag-specifications ResourceType=subnet,Tags="[{Key=Name,Value=Devops-public-zone-1}]" \
-        --availability-zone eu-north-1a	 \
-        --output json)
-    subnet_id=$(echo $subnet_result |  grep -oP '(?<="SubnetId": ")[^"]*')   
-    echo $subnet_id 
-     # Allow Error handling per vpc_id
-    if [ "$subnet_id" == "" ]; then
-    echo "Error in creating subnet1"
-    exit 1 
-    fi   
-else
-    subnet_id=$subnet_check
-    echo $subnet_id
-fi
+create_subnet()
+{  # $1 subnet number , $2 az , $3 public or private 
+    subnet_check=$(aws ec2 describe-subnets --region eu-north-1  --filters  Name=tag:Name,Values=sub-$3-$1-devops | grep -oP '(?<="SubnetId": ")[^"]*')
+    if [ "$subnet_check" == "" ];then
+        echo "subnet $1 will be created... "
+        subnet_result=$(aws ec2 create-subnet \
+            --vpc-id $vpc_id \
+            --cidr-block 10.0.$1.0/24 \
+            --tag-specifications ResourceType=subnet,Tags="[{Key=Name,Value=sub-$3-$1-devops90}]" \
+            --availability-zone eu-north-1$2	 \
+            --output json)
+        subnet_id=$(echo $subnet_result |  grep -oP '(?<="SubnetId": ")[^"]*')   
+        echo $subnet_id 
+        # Allow Error handling per vpc_id
+        if [ "$subnet_id" == "" ]; then
+        echo "Error in creating subnet $1"
+        exit 1 
+        fi   
+    else
+        subnet_id=$subnet_check
+        echo $subnet_id
+    fi
+}
+create_subnet 1 a public
+subnet1_id=$subnet_id
+create_subnet 2 b public
+subnet2_id=$subnet_id
+create_subnet 3 a private
+subnet3_id=$subnet_id
+create_subnet 4 b private
+subnet4_id=$subnet_id
+
+
