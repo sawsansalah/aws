@@ -1,7 +1,7 @@
 #!/bin/bash
 # create vpc 10.0.0.0/16
 vpc_result=$(aws ec2 create-vpc \
-    --cidr-block 10.0.0.0/16 \
+    --cidr-block 10.0.0.0/15 \
     --tag-specification ResourceType=vpc,Tags="[{Key=Name,Value=Devops90-vpc}]" \
     --region eu-north-1 \
     --output json)
