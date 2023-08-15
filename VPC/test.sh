@@ -39,6 +39,7 @@ create_subnet()
             --tag-specifications ResourceType=subnet,Tags="[{Key=Name,Value=sub-$3-$1-devops90}]" \
             --availability-zone eu-north-1$2	 \
             --output json)
+        echo $subnet_result    
         subnet_id=$(echo $subnet_result |  grep -oP '(?<="SubnetId": ")[^"]*')   
         echo $subnet_id 
         # Allow Error handling per vpc_id
@@ -47,6 +48,7 @@ create_subnet()
         exit 1 
         fi   
     else
+        echo "subnet $1 already exist"
         subnet_id=$subnet_check
         echo $subnet_id
     fi
@@ -59,5 +61,29 @@ create_subnet 3 a private
 subnet3_id=$subnet_id
 create_subnet 4 b private
 subnet4_id=$subnet_id
+#------------------------------
+# create internet Gateway
+Gateway_check=$(aws ec2 describe-internet-gateways --region eu-north-1  --filters  Name=tag:Name,Values=Devops90-igw | grep -oP '(?<="InternetGatewayId": ")[^"]*')
+if["$Gateway_check" ==  ]
+   echo "The internet-gateway will be created ......"
+   Gateway_result=$(aws ec2 create-internet-gateway \
+            --region eu-north-1 \
+            --tag-specifications ResourceType=internet-gateway,Tags="[{Key=Name,Value=Devops90-igw}]" \
+            --output json) 
+   echo $Gateway_result
+   GatewayId=$(echo $Gateway_result | grep -oP '(?<="InternetGatewayId": ")[^"]*' )
+   echo $GatewayId
+   # Allow Error handling per IG 
+        if [ "$GatewayId" == "" ]; then
+        echo "Error in creating InternetGateway...."
+        exit 1 
+        fi   
+else
+  echo "InternetGateway is exsist .........."
+  Gateway_check=$GatewayId
+fi  
+echo $GatewayId
+
+
 
 
