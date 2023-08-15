@@ -30,7 +30,7 @@ fi
 # create first-public-subnet in first zone Az1
 create_subnet()
 {  # $1 subnet number , $2 az , $3 public or private 
-    subnet_check=$(aws ec2 describe-subnets --region eu-north-1  --filters  Name=tag:Name,Values=sub-$3-$1-devops | grep -oP '(?<="SubnetId": ")[^"]*')
+    subnet_check=$(aws ec2 describe-subnets --region eu-north-1  --filters  Name=tag:Name,Values=sub-$3-$1-devops90 | grep -oP '(?<="SubnetId": ")[^"]*')
     if [ "$subnet_check" == "" ];then
         echo "subnet $1 will be created... "
         subnet_result=$(aws ec2 create-subnet \
