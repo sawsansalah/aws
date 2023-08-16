@@ -88,7 +88,7 @@ echo $GatewayId
 
 attatch_check=$(aws ec2 describe-internet-gateways \
     --internet-gateway-ids $GatewayId | grep -oP '(?<="VpcId": ")[^"]*')
-if [ "$VpcId" =! "$attatch_check" ]; then
+if [ "$VpcId" != "$attatch_check" ]; then
 
     attatch_result=$(aws ec2 attach-internet-gateway \
         --internet-gateway-id $GatewayId \
