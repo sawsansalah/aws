@@ -97,7 +97,7 @@ else
   echo "  internet gateway didn't attached ....."
 fi       
 
--------------------------------
+#-------------------------------
 ## create public route table 
 
 rtb_check=$(aws ec2 describe-route-tables --filters  Name=tag:Name,Values=pub-Devops90-rtb | grep -oP '(?<="RouteTableId": ")[^"]*')
@@ -110,10 +110,10 @@ if [ "$rtb_check" == "" ]; then
         echo "Error in creating public routing table ...."
         exit 1 
         fi   
-    route_result=$(aws ec2 create-route --route-table-id $pub-rtb-id --destination-cidr-block 0.0.0.0/0 --gateway-id $GatewayId)
+    route_result=$(aws ec2 create-route --route-table-id $pub-rtb-id --destination-cidr-block 0.0.0.0/0 --gateway-id $GatewayId | grep -oP '(?<="RouteTableId": ")[^"]*')  
     echo $route_result
     if [ "$route_result" != "true" ]; then
-        echo "Error in creating public routing table ...."
+        echo "Error in creating  routing table ...."
         exit 1 
         fi   
     
@@ -121,5 +121,6 @@ else
   pub-rtb-id=$rtb_check
   echo $pub-rtb-id
 fi
-
-
+# Assoicate public route table to public subnets 
+aws ec2 associate-route-table --route-table-id $pub-rtb-id --subnet-id $subnet1_id
+aws ec2 associate-route-table --route-table-id $pub-rtb-id --subnet-id $subnet2_id
