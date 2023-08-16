@@ -118,8 +118,8 @@ if [ "$rtb_check" == "" ]; then
         fi   
     
 else
-  pub-rtb-id=$rtb_check
-  echo $pub-rtb-id
+  pub_rtb_id=$rtb_check
+  echo $pub_rtb_id
 fi
 # Assoicate public route table to public subnets 
 aws ec2 associate-route-table --route-table-id $pub_rtb_id--subnet-id $subnet1_id
