@@ -83,7 +83,19 @@ else
   Gateway_check=$GatewayId
 fi  
 echo $GatewayId
+#----------------------------------------
+# Attatch the internet Gateway to vpc 
 
+attatch_check=$(aws ec2 describe-internet-gateways \
+    --internet-gateway-ids $GatewayId | grep -oP '(?<="VpcId": ")[^"]*')
+if [ "$VpcId" =! "$attatch_check" ]; then
 
+    attatch_result=$(aws ec2 attach-internet-gateway \
+        --internet-gateway-id $GatewayId \
+        --vpc-id $vpc_id)
+    echo "  internet gateway attached ....."
+else
+  echo "  internet gateway didn't attached ....."
+       
 
 
