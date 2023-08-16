@@ -42,7 +42,7 @@ create_subnet()
         echo $subnet_result    
         subnet_id=$(echo $subnet_result |  grep -oP '(?<="SubnetId": ")[^"]*')   
         echo $subnet_id 
-        # Allow Error handling per vpc_id
+        # Allow Error handling per subnet-id
         if [ "$subnet_id" == "" ]; then
         echo "Error in creating subnet $1"
         exit 1 
@@ -64,7 +64,7 @@ subnet4_id=$subnet_id
 #------------------------------
 # create internet Gateway
 Gateway_check=$(aws ec2 describe-internet-gateways --region eu-north-1  --filters  Name=tag:Name,Values=Devops90-igw | grep -oP '(?<="InternetGatewayId": ")[^"]*')
-if["$Gateway_check" ==  ]
+if["$Gateway_check" ==  ];then
    echo "The internet-gateway will be created ......"
    Gateway_result=$(aws ec2 create-internet-gateway \
             --region eu-north-1 \
