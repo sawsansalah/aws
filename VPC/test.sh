@@ -122,5 +122,5 @@ else
   echo $pub_rtb_id
 fi
 # Assoicate public route table to public subnets 
-aws ec2 associate-route-table --route-table-id $pub_rtb_id--subnet-id $subnet1_id
-aws ec2 associate-route-table --route-table-id $pub_rtb_id--subnet-id $subnet2_id
+aws ec2 associate-route-table --route-table-id $pub_rtb_id --subnet-id $subnet1_id
+aws ec2 associate-route-table --route-table-id $pub_rtb_id --subnet-id $subnet2_id
