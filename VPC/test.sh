@@ -104,13 +104,13 @@ rtb_check=$(aws ec2 describe-route-tables --filters  Name=tag:Name,Values=pub-De
 
 if [ "$rtb_check" == "" ]; then
    echo "the private routing table will be created ........."
-   pub-rtb-id=$(aws ec2 create-route-table --vpc-id $vpc_id --tag-specifications ResourceType=route-table,Tags="[{Key=Name,Value=pub-Devops90-rtb}]" --output json |  grep -oP '(?<="RouteTableId": ")[^"]*')  
+   pub_rtb_id=$(aws ec2 create-route-table --vpc-id $vpc_id --tag-specifications ResourceType=route-table,Tags="[{Key=Name,Value=pub-Devops90-rtb}]" --output json |  grep -oP '(?<="RouteTableId": ")[^"]*')  
     # Allow Error handling per IG 
     if [ "$RouteTableId" == "" ]; then
         echo "Error in creating public routing table ...."
         exit 1 
         fi   
-    route_result=$(aws ec2 create-route --route-table-id $pub-rtb-id --destination-cidr-block 0.0.0.0/0 --gateway-id $GatewayId | grep -oP '(?<="RouteTableId": ")[^"]*')  
+    route_result=$(aws ec2 create-route --route-table-id $pub_rtb_id--destination-cidr-block 0.0.0.0/0 --gateway-id $GatewayId | grep -oP '(?<="RouteTableId": ")[^"]*')  
     echo $route_result
     if [ "$route_result" != "true" ]; then
         echo "Error in creating  routing table ...."
@@ -122,5 +122,5 @@ else
   echo $pub-rtb-id
 fi
 # Assoicate public route table to public subnets 
-aws ec2 associate-route-table --route-table-id $pub-rtb-id --subnet-id $subnet1_id
-aws ec2 associate-route-table --route-table-id $pub-rtb-id --subnet-id $subnet2_id
+aws ec2 associate-route-table --route-table-id $pub_rtb_id--subnet-id $subnet1_id
+aws ec2 associate-route-table --route-table-id $pub_rtb_id--subnet-id $subnet2_id
