@@ -124,3 +124,24 @@ fi
 # Assoicate public route table to public subnets 
 aws ec2 associate-route-table --route-table-id $pub_rtb_id --subnet-id $subnet1_id
 aws ec2 associate-route-table --route-table-id $pub_rtb_id --subnet-id $subnet2_id
+
+#-------------------------------
+## create public route table 
+rtb_check=$(aws ec2 describe-route-tables --filters  Name=tag:Name,Values=pub-Devops90-rtb | grep -oP '(?<="RouteTableId": ")[^"]*')
+
+if [ "$rtb_check" == "" ]; then
+   echo "the private routing table will be created ........."
+   private_rtb_id=$(aws ec2 create-route-table --vpc-id $vpc_id --tag-specifications ResourceType=route-table,Tags="[{Key=Name,Value=pub-Devops90-rtb}]" --output json |  grep -oP '(?<="RouteTableId": ")[^"]*')  
+    # Allow Error handling per IG 
+    if [ "$RouteTableId" == "" ]; then
+        echo "Error in creating private routing table ...."
+        exit 1 
+        fi   
+ 
+else
+  pub_rtb_id=$rtb_check
+  echo $pub_rtb_id
+fi
+# Assoicate public route table to public subnets 
+aws ec2 associate-route-table --route-table-id $private_rtb_id --subnet-id $subnet1_id
+aws ec2 associate-route-table --route-table-id $private_rtb_id --subnet-id $subnet2_id
