@@ -133,14 +133,14 @@ if [ "$rtb_check" == "" ]; then
    echo "the private routing table will be created ........."
    private_rtb_id=$(aws ec2 create-route-table --vpc-id $vpc_id --tag-specifications ResourceType=route-table,Tags="[{Key=Name,Value=private-Devops90-rtb}]" --output json |  grep -oP '(?<="RouteTableId": ")[^"]*'| uniq)  
     # Allow Error handling per IG 
-    if [ "$RouteTableId" == "" ]; then
+    if [ "$private_rtb_id" == "" ]; then
         echo "Error in creating private routing table ...."
         exit 1 
         fi   
  
 else
-  pub_rtb_id=$rtb_check
-  echo $pub_rtb_id
+  private_rtb_id=$rtb_check
+  echo $private_rtb_id
 fi
 # Assoicate public route table to public subnets 
 aws ec2 associate-route-table --route-table-id $private_rtb_id --subnet-id $subnet3_id
