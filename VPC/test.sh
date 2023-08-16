@@ -96,6 +96,6 @@ if [ "$VpcId" =! "$attatch_check" ]; then
     echo "  internet gateway attached ....."
 else
   echo "  internet gateway didn't attached ....."
-       
+fi       
 
 
