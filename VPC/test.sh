@@ -127,22 +127,21 @@ aws ec2 associate-route-table --route-table-id $pub_rtb_id --subnet-id $subnet2_
 
 #-------------------------------
 ## create public route table 
-rtb_check=$(aws ec2 describe-route-tables --filters  Name=tag:Name,Values=private-Devops90-rtb | grep -oP '(?<="RouteTableId": ")[^"]*'| uniq)
+rtb_check=$(aws ec2 describe-route-tables --filters  Name=tag:Name,Values=pub-Devops90-rtb | grep -oP '(?<="RouteTableId": ")[^"]*' | uniq)
 
 if [ "$rtb_check" == "" ]; then
    echo "the private routing table will be created ........."
-   private_rtb_id=$(aws ec2 create-route-table --vpc-id $vpc_id --tag-specifications ResourceType=route-table,Tags="[{Key=Name,Value=private-Devops90-rtb}]" --output json |  grep -oP '(?<="RouteTableId": ")[^"]*'| uniq)  
+   priv_rtb_id=$(aws ec2 create-route-table --vpc-id $vpc_id --tag-specifications ResourceType=route-table,Tags="[{Key=Name,Value=priv-Devops90-rtb}]" --output json |  grep -oP '(?<="RouteTableId": ")[^"]*' | uniq)  
     # Allow Error handling per IG 
-    if [ "$private_rtb_id" == "" ]; then
-        echo "Error in creating private routing table ...."
+    if [ "$RouteTableId" == "" ]; then
+        echo "Error in creating privlic routing table ...."
         exit 1 
         fi   
- 
+    
 else
-  private_rtb_id=$rtb_check
-  echo $private_rtb_id
+  priv_rtb_id=$rtb_check
+  echo $priv_rtb_id
 fi
-echo $private_rtb_id
-# Assoicate public route table to public subnets 
-aws ec2 associate-route-table --route-table-id $private_rtb_id --subnet-id $subnet3_id
-aws ec2 associate-route-table --route-table-id $private_rtb_id --subnet-id $subnet4_id
+# Assoicate privlic route table to privlic subnets 
+aws ec2 associate-route-table --route-table-id $priv_rtb_id --subnet-id $subnet3_id
+aws ec2 associate-route-table --route-table-id $priv_rtb_id --subnet-id $subnet4_id
