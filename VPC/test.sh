@@ -64,7 +64,7 @@ subnet4_id=$subnet_id
 #------------------------------
 # create internet Gateway
 Gateway_check=$(aws ec2 describe-internet-gateways --region eu-north-1  --filters  Name=tag:Name,Values=Devops90-igw | grep -oP '(?<="InternetGatewayId": ")[^"]*')
-if["$Gateway_check" ==  ];then
+if [ "$Gateway_check" == "" ];then
    echo "The internet-gateway will be created ......"
    Gateway_result=$(aws ec2 create-internet-gateway \
             --region eu-north-1 \
