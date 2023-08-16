@@ -142,6 +142,7 @@ else
   private_rtb_id=$rtb_check
   echo $private_rtb_id
 fi
+echo $private_rtb_id
 # Assoicate public route table to public subnets 
 aws ec2 associate-route-table --route-table-id $private_rtb_id --subnet-id $subnet3_id
 aws ec2 associate-route-table --route-table-id $private_rtb_id --subnet-id $subnet4_id
