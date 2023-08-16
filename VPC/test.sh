@@ -80,7 +80,7 @@ if [ "$Gateway_check" == "" ]; then
         fi   
 else
   echo "InternetGateway is exsist .........."
-  Gateway_check=$GatewayId
+  GatewayId=$Gateway_check
 fi  
 echo $GatewayId
 #----------------------------------------
