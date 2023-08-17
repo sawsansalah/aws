@@ -127,7 +127,7 @@ aws ec2 associate-route-table --route-table-id $pub_rtb_id --subnet-id $subnet2_
 
 #-------------------------------
 ## create public route table 
-rtb_check=$(aws ec2 describe-route-tables --filters  Name=tag:Name,Values=pub-Devops90-rtb | grep -oP '(?<="RouteTableId": ")[^"]*' | uniq)
+rtb_check=$(aws ec2 describe-route-tables --filters  Name=tag:Name,Values=priv-Devops90-rtb | grep -oP '(?<="RouteTableId": ")[^"]*' | uniq)
 
 if [ "$rtb_check" == "" ]; then
    echo "the private routing table will be created ........."
