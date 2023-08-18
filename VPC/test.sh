@@ -110,7 +110,7 @@ if [ "$rtb_check" == "" ]; then
         echo "Error in creating public routing table ...."
         exit 1 
         fi   
-    route_result=$(aws ec2 create-route --route-table-id $pub_rtb_id --destination-cidr-block 0.0.0.0/0 --gateway-id $GatewayId | grep -oP '(?<="RouteTableId": ")[^"]*'| uniq)  
+    route_result=$(aws ec2 create-route --route-table-id $pub_rtb_id --destination-cidr-block 0.0.0.0/0 --gateway-id $GatewayId | grep -oP '(?<="Return": ")[^"]*'| uniq)  
     echo $route_result
     if [ "$route_result" != "true" ]; then
         echo "Error in creating  routing table ...."
