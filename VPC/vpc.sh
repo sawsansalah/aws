@@ -63,7 +63,7 @@ if [ "$igw_check" == "" ]; then
     fi
     echo "IGW created.."
 else
-    echo :IGW already exist.."
+    echo "IGW already exist.."
     igw_id=$igw_check
 fi    
 echo $igw-id
