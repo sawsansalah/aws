@@ -37,7 +37,7 @@ create_subnet()
         exit 1
         fi
     else
-    echo " sbnet already exist" 
+    echo " sbnet $1 already exist" 
     subnet_id=$subnet_check
     echo $subnet_id   
     fi
@@ -65,8 +65,9 @@ if [ "$igw_check" == "" ]; then
     fi
     echo "IGW create
 else
-    echo " Igw already exist..."
-    igw_id=$igw_check
-    echo $igw_id
-fi
+  echo "igw already exist"
+  igw_id=$igw_check
+  echo $igw-id
+fi      
+    
  
