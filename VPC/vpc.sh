@@ -29,7 +29,7 @@ if [ "$subnet_check" == "" ]; then
     subnet_result=$(aws ec2 create-subnet  --region us-west-2 --vpc-id $vpc_id  --cidr-block 10.0.1.0/24 --tag-specifications ResourceType=subnet,Tags="[{Key=Name,Value=sub-public1-devops90}]"  --output json) 
     echo $subnet_result
     subnet_id=$(echo $subnet_result | grep -oP '(?<="SubnetId": ")[^"]*' )
-    if ["$subnet_id" == "" ]; then
+    if [ "$subnet_id" == "" ]; then
     echo "error in creating subnet "
     exit 1
     fi
