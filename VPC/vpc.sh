@@ -56,7 +56,7 @@ subnet4_id=$subnet_id
 igw_check=$(aws ec2 describe-internet-gateways --region us-west-2 --filters Name=tag:Name,Values=Devops90-igw | grep -oP '(?<="InternetGatewayId": ")[^"]*')
 if [ "$igw_check" == "" ]; then
    echo "igw will be created..." 
-   igw_id=$(aws ec2 create-internet-gateway  --region us-west-2  --tag-specifications ResourceType=internet-gateway,Tags=[{Key=Name,Value=Devops90-igw}] | grep -oP '(?<="InternetGatewayId": ")[^"]*')
+   igw_id=$(aws ec2 create-internet-gateway  --region us-west-2  --tag-specifications ResourceType=internet-gateway,Tags="[{Key=Name,Value=Devops90-igw}]" | grep -oP '(?<="InternetGatewayId": ")[^"]*')
    if [ "$igw_id" == "" ]; then
     echo "Error in creating IGW"
     exit 1
