@@ -67,3 +67,16 @@ else
     igw_id=$igw_check
 fi    
 echo $igw_id
+
+#### attach vpc 
+igw_attatch=$(aws ec2 describe-internet-gateways --region us-west-2 --internet-gateway-ids $igw_id | grep -oP '(?<="VpcId": ")[^"]*')
+if [ "$igw_attatch" != "$vpc_id"]; then
+   echo "igw will be attached ..."
+   igw_result=$(aws ec2 attach-internet-gateway --internet-gateway-id $igw_id --vpc-id $vpc_id)
+   if [ "$igw_result" == ""]; then
+      echo "igw attatched"
+   else
+      echo "igw aleady attached"
+else
+     echo "igw already attached ...."          
+fi
