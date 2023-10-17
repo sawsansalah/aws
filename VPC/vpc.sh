@@ -37,7 +37,7 @@ else
   echo " sbnet already exist" 
   subnet_id=$subnet_check
   echo $subnet_id   
-
+fi
 
 
     
