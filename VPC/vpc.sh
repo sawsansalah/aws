@@ -1,6 +1,6 @@
 #!/bin/bash
 #check vpc already exsist or not 
-vpc_check=$(aws ec2 describe-vpcs --region us-west-2 --filters Name=tag:Name,Values=devops90-VPC | grep -oP '(?<="VpcId": ")[^"]*') 
+vpc_check=$(aws ec2 describe-vpcs --region us-west-2 --filters Name=tag:Name,Values=Devops90-VPC | grep -oP '(?<="VpcId": ")[^"]*')
 
 # create vpc 10.0.0.0/16
 if [ "$vpc_check" == "" ]; then
