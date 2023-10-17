@@ -28,7 +28,7 @@ create_subnet{
 
     if [ "$subnet_check" == "" ]; then
         echo "subnet $1 is creating ...."
-        subnet_result=$(aws ec2 create-subnet  --region us-west-2 --vpc-id $vpc_id --availability-zone us-west-$2 --cidr-block 10.0.$1.0/24 --tag-specifications ResourceType=subnet,Tags="[{Key=Name,Value=sub-$3-$1-devops90}]"  --output json) 
+        subnet_result=$(aws ec2 create-subnet  --region us-west-2 --vpc-id $vpc_id --availability-zone us-west-2$2 --cidr-block 10.0.$1.0/24 --tag-specifications ResourceType=subnet,Tags="[{Key=Name,Value=sub-$3-$1-devops90}]"  --output json) 
         echo $subnet_result
         subnet_id=$(echo $subnet_result | grep -oP '(?<="SubnetId": ")[^"]*' )
         if [ "$subnet_id" == "" ]; then
