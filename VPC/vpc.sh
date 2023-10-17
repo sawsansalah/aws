@@ -78,5 +78,5 @@ if [ "$igw_attatch" != "$vpc_id"]; then
    else
       echo "igw aleady attached"
 else
-     echo "igw already attached ...."          
+    echo "igw already attached ...."          
 fi
