@@ -66,4 +66,4 @@ else
     echo "IGW already exist.."
     igw_id=$igw_check
 fi    
-echo $igw-id
+echo $igw_id
