@@ -21,3 +21,25 @@ else
 fi      
 
     
+# create first-public-subnet in first zone Az1
+subnet_check=$(aws ec2 describe-subnets --region us-west-2 --filters Name=tag:Name,Values=sub-public1-devops90 | grep -oP '(?<="SubnetId": ")[^"]*')
+
+if [ "$subnet_check" == "" ]; then
+    echo "subnet 1 is creating ...."
+    subnet_result=$(aws ec2 create-subnet  --region us-west-2 --vpc-id $vpc_id  --cidr-block 10.0.1.0/24 --tag-specifications ResourceType=subnet,Tags="[{Key=Name,Value=sub-public1-devops90}]"  --output json) 
+    echo $subnet_result
+    subnet_id=$(echo $subnet_result | grep -oP '(?<="SubnetId": ")[^"]*' )
+    if ["$subnet_id" == "" ]; then
+    echo "error in creating subnet "
+    exit 1
+    fi
+else
+  echo " sbnet already exist" 
+  subnet_id=$subnet_check
+  echo $subnet_id   
+
+
+
+    
+   
+  
