@@ -3,7 +3,7 @@
 vpc_check=$(aws ec2 describe-vpcs --region us-west-2 --filters Name=tag:Name,Values=devops90-vpc | grep -oP '(?<="VpcId": ")[^"]*') 
 
 # create vpc 10.0.0.0/16
-if ["$vpc_check" == "" ]; then
+if [ "$vpc_check" == "" ]; then
     vpc_result=$(aws ec2 create-vpc  --cidr-block 10.0.0.0/16 --tag-specification ResourceType=vpc,Tags="[{Key=Name,Value=Devops90-VPC}]" --region us-west-2 --output json)
     echo $vpc_result
     vpc_id=$(echo $vpc_result | grep -oP '(?<="VpcId": ")[^"]*')
