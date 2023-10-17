@@ -5,7 +5,7 @@ echo $vpc_result
 vpc_id=$(echo $vpc_result | grep -oP '(?<="VpcId": ")[^"]*')
 echo $vpc_id
 ## Error handling if vpc_id not found means something error per vpc
-if["$vpc_id" = ""]; then
+if[ "$vpc_id" = "" ]; then
   echo "Error in creating vpc"
   exit 1
 fi
