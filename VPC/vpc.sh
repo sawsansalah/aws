@@ -22,7 +22,8 @@ fi
 
     
 # create first-public-subnet in first zone Az1
-create_subnet{
+create_subnet()
+{
     #$1 subnet_num , $2 az , $3 pub or private 
     subnet_check=$(aws ec2 describe-subnets --region us-west-2 --filters Name=tag:Name,Values=sub-$3-$1-devops90 | grep -oP '(?<="SubnetId": ")[^"]*')
 
