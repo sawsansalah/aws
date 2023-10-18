@@ -82,29 +82,32 @@ else
    echo "Internet gateway already attached to this vpc"
 fi
 ## create public routetable 
-rt_check=$(aws ec2 describe-route-tables --region us-west-2 --filters Name=tag:Name,Values=Devops90-pub-rtb | grep -oP '(?<="RouteTableId": ")[^"]*'| uniq)
-if [ "$rt_check" == " " ]; then
-   echo "pub routing table will be created ..."
-   rt_table_id=$(aws ec2 create-route-table --region us-west-2 --vpc-id $vpc_id  --tag-specifications ResourceType=route-table,Tags="[{Key=Name,Value=Devops90-pub-rtb}]" | grep -oP '(?<="RouteTableId": ")[^"]*')
-   if [ "$rt_table_id" == "" ]; then
-      echo "Error in creating public routing table"
-      exit 1
-   else
-      echo "public routing table created "
-   fi   
-route_result=$(aws ec2 create-route --route-table-id $rt_table_id --destination-cidr-block 0.0.0.0/0 --gateway-id  $igw_id | grep -oP '(?<="Return": ")[^"]*')
-echo $route_result
-   if [ "$route_result" != "true" ]; then
+check_rtb=$(aws ec2 describe-route-tables --region us-west-2 --filters Name=tag:Name,Values=public-devops90-rtb | grep -oP '(?<="RouteTableId": ")[^"]*' | uniq)
+
+if [ "$check_rtb" == "" ]; then
+    echo "public route table will be created"
+    public_rtb_id=$(aws ec2 create-route-table --region us-west-2 --vpc-id $vpc_id --tag-specifications ResourceType=route-table,Tags="[{Key=Name,Value=public-devops90-rtb}]"  --output json | grep -oP '(?<="RouteTableId": ")[^"]*'  | uniq)
+    if [ "$public_rtb_id" == "" ]; then
+        echo "Error in create public route table"
+        exit 1
+    fi
+    echo "public route table created."
+
+    # create public route 
+    route_result=$(aws ec2 create-route --region us-west-2 --route-table-id $public_rtb_id \
+        --destination-cidr-block 0.0.0.0/0 --gateway-id $igw_id | grep -oP '(?<="Return": ")[^"]*')
+    echo $route_result
+    if [ "$route_result" != "true" ]; then
         echo "public route creation faild"
         exit 1
-   fi
+    fi
     echo "public route created"
 
-else
-   echo "pub routing table already exists...."
-   pub_rt_id=$rt_check
-   echo $pub_rt_id
+else 
+    echo "public route table already exist"
+    public_rtb_id=$check_rtb
 fi
-aws ec2 associate-route-table --route-table-id $rt_table_id --subnet-id $subnet1_id
-aws ec2 associate-route-table --route-table-id $rt_table_id --subnet-id $subnet2_id
+
+echo $public_rtb_id
+
 
