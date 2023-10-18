@@ -99,4 +99,6 @@ else
    pub_rt_id=$rt_check
    echo $pub_rt_id
 fi
+aws ec2 associate-route-table --route-table-id $pub_rt_id --subnet-id $subnet1_id
+aws ec2 associate-route-table --route-table-id $pub_rt_id --subnet-id $subnet2_id
 
