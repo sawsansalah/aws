@@ -92,7 +92,13 @@ if [ "$rt_check" == " " ]; then
    else
       echo "public routing table created "
    fi   
-route_result=$(aws ec2 create-route --route-table-id $rt_table_id --destination-cidr-block 0.0.0.0/0 --gateway-id  $igw_id)
+route_result=$(aws ec2 create-route --route-table-id $rt_table_id --destination-cidr-block 0.0.0.0/0 --gateway-id  $igw_id | grep -oP '(?<="Return": ")[^"]*')
+echo $route_result
+   if [ "$route_result" != "true" ]; then
+        echo "public route creation faild"
+        exit 1
+   fi
+    echo "public route created"
 
 else
    echo "pub routing table already exists...."
