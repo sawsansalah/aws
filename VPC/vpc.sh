@@ -77,7 +77,8 @@ if [ "$igw_attatch" != "$vpc_id"]; then
    if [ "$igw_result" == ""]; then
       echo "igw attatched"
    else
-     echo "igw aleady attached"
+      echo "igw aleady assoicated"
+   fi   
 else
-    echo "Internet gateway already attached to this vpc"
+   echo "Internet gateway already attached to this vpc"
 fi
