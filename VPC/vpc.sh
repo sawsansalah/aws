@@ -81,3 +81,22 @@ if [ "$igw_attatch" != "$vpc_id" ]; then
 else
    echo "Internet gateway already attached to this vpc"
 fi
+## create public routetable 
+rt_check=$(aws ec2 describe-route-tables --region us-west-2 --tag-specifications ResourceType=internet-gateway,Tags="[{Key=Name,Value=Devops90-pub-rtb}]" | grep -oP '(?<="RouteTableId": ")[^"]*')
+if [ "$rt_check" == " " ]; then
+   echo "pub routing table will be created ..."
+   rt_table_id=$(aws ec2 create-route-table --region us-west-2 --vpc-id $vpc_id  --tag-specifications ResourceType=route-table,Tags="[{Key=Name,Value=Devops90-pub-rtb}]" | grep -oP '(?<="RouteTableId": ")[^"]*')
+   if [ "$rt_table_id" == "" ]; then
+      echo "Error in creating public routing table"
+      exit 1
+   else
+      echo "public routing table created "
+   fi   
+route_result=$(aws ec2 create-route --route-table-id $rt_table_id --destination-cidr-block 0.0.0.0/0 --gateway-id  $igw_id)
+
+else
+   echo "pub routing table already exists...."
+   pub_rt_id=$rt_check
+   echo $pub_rt_id
+fi
+
