@@ -73,7 +73,7 @@ igw_attatch=$(aws ec2 describe-internet-gateways --region us-west-2 --internet-g
 if [ "$igw_attatch" != "$vpc_id" ]; then
    echo "igw will be attached ..."
    igw_result=$(aws ec2 attach-internet-gateway --internet-gateway-id $igw_id --vpc-id $vpc_id)
-   if [ "$igw_result" == ""]; then
+   if [ "$igw_result" == "" ]; then
       echo "igw attatched"
    else
       echo "igw aleady assoicated"
