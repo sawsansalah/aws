@@ -18,6 +18,19 @@ create_hosted_zone()
   else
       echo "Hosted Zone already exist."
       hosted_zone_id=$check_zone
-  fi
+  fifilters
 }
 create_hosted_zone
+get_instance_ip()
+{
+    #$1 ec2 name 
+    check_instance=$(aws ec2 describe-instances --region=$region --filters=Name=tag:Name,Values=$1 |grep -oP '(?<="PublicIpAddress": ")[^"]*'  ) 
+    if ["$check_instance" == ""]; then
+       echo "instance EC2 $1 not exsist"
+       exit 1
+    else
+       echo "instance $1 found , public ip is  $check_instance "  
+
+    fi
+}
+get_instance_ip "devops90"
