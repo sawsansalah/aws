@@ -18,7 +18,7 @@ create_hosted_zone()
   else
       echo "Hosted Zone already exist."
       hosted_zone_id=$check_zone
-  fifilters
+  
 }
 create_hosted_zone
 get_instance_ip()
