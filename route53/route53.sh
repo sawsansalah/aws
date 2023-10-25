@@ -34,3 +34,50 @@ get_instance_ip() {
 }
 
 get_instance_ip "devops90"
+
+create_dns_record() {
+   #$1,subdomain
+   full_sub_domain="$1.dns_name"
+       change=$(cat << EOF
+{
+  "Changes": 
+  [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": 
+      {
+        "Name": "$full_sub_domain",
+        "Type": "A",
+        "TTL": 300,
+        "ResourceRecords": 
+        [
+          {
+            "Value": "$2"
+          }
+        ]
+      }
+    }
+  ]
+}
+EOF
+)
+   record_check=$(aws route53 list-resource-record-sets --hosted-zone-id $hosted_zone_id --query "ResourceRecordSets[?Name == '$full_sub_domain' ]" |  grep -oP '(?<="Name": ")[^"]*')
+   if [ "$record_check" == "" ]; then
+      echo "DNS record will be created "
+      record_id=$(aws route53 change-resource-record-sets --hosted-zone-id $hosted_zone_id --change-batch $change | grep -oP '(?<="Id": ")[^"]*')
+        
+        if [ "$record_id" == "" ]; then
+            echo "Error in create DNS Record"
+            exit 1
+        fi
+        echo "DNS Record created."
+
+    else
+        echo "DNS Record already exist."
+    fi
+  
+   else
+      echo "Dns Record already exist "
+
+
+}
