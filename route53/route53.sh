@@ -15,8 +15,8 @@ create_hosted_zone()
      fi
      echo "hosted zone created $hosted_zone_id "    
   else
-     echo "hosted zone already exsist..."
-     hosted_zone_id=$check_zone
+    echo "hosted zone already found"
+    hosted_zone_id=$check_zone
   fi
 }
 create_hosted_zone
