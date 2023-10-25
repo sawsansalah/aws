@@ -8,7 +8,7 @@ create_hosted_zone()
   if [ "$check_zone" == "" ]; then
      echo " Hosted Zone will be created ....."
      date=$(date -u +"%Y-%m-%d-%H-%M-%S")
-     hosted_zone_id=$(aws route53 create-hosted-zone --name $dns_name --caller-reference $date | grep -oP '(?<="Id": ")[^"]*' | uniq ")
+     hosted_zone_id=$(aws route53 create-hosted-zone --name $dns_name --caller-reference $date | grep -oP '(?<="Id": ")[^"]*' | uniq )
      if [ "$hosted_zone_id" == "" ];then
         echo "Error in created hosted Zone..."
         exit 1
