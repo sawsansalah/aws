@@ -85,4 +85,4 @@ EOF
 
 create_hosted_zone
 get_instance_ip "devops90"
-create_dns_record "srv2" "$ip"
+create_dns_record "srv2" "44.206.246.190"
