@@ -66,7 +66,7 @@ EOF
    record_check=$(aws route53 list-resource-record-sets --hosted-zone-id $hosted_zone_id --query "ResourceRecordSets[?Name == '$full_sub_domain' ]" |  grep -oP '(?<="Name": ")[^"]*')
    if [ "$record_check" == "" ]; then
       echo "DNS record will be created "
-      record_id=$(aws route53 change-resource-record-sets --hosted-zone-id $hosted_zone_id --change-batch $change --query HostedZone | grep -oP '(?<="Id": ")[^"]*')
+      record_id=$(aws route53 change-resource-record-sets --hosted-zone-id $hosted_zone_id --change-batch $change | grep -oP '(?<="Id": ")[^"]*')
         
         if [ "$record_id" == "" ]; then
             echo "Error in create DNS Record"
