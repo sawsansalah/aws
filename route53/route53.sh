@@ -38,7 +38,7 @@ get_instance_ip() {
 create_dns_record() {
    #$1,subdomain
    full_sub_domain="$1.dns_name"
-       change=$(cat << EOF
+   change=$(cat << EOF
 {
   "Changes": 
   [
@@ -85,4 +85,4 @@ EOF
 
 create_hosted_zone
 get_instance_ip "devops90"
-create_dns_record "srv2"
+create_dns_record "srv2" "$ip"
