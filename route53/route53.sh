@@ -78,8 +78,7 @@ EOF
         echo "DNS Record already exist."
     fi
   
-   else
-      echo "Dns Record already exist "
+
 
 
 }
