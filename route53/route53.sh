@@ -37,7 +37,7 @@ get_instance_ip() {
 
 create_dns_record() {
    #$1,subdomain
-   full_sub_domain="$1.dns_name"
+   full_sub_domain="$1.$dns_name"
    change=$(cat << EOF
 {
   "Changes": 
