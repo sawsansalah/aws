@@ -28,6 +28,11 @@ echo $public-subnet-01
 get_subnet_id "public-subnet-02"
 subnet_id=$public-subnet-02
 echo $public-subnet-02
+ subnets_ids="${public-subnet-01},${public-subnet-02}"
+ subnets_ids_space="${public-subnet-01} ${public-subnet-02}"
+ echo $subnets_ids
+ echo $subnets_ids_space
+
 
 
 #get_secuirty_group_id
