@@ -15,7 +15,7 @@ get_vpc "devops-90-vpc"
 #get_subnet_id
 get_subnet_id(){
     #$1 subnet name
-    subnet_id=$(aws ec2 describe-subnets --region us-west-2 --filters Name=tag:Name,Values=$1 | grep -oP '(?<="SubnetId": ")[^"]*')
+    subnet_id=$(aws ec2 describe-subnets --region us-east-1 --filters Name=tag:Name,Values=$1 | grep -oP '(?<="SubnetId": ")[^"]*')
     if [ "$subnet_id" == "" ]; then
     echo "subnet not found"
     exit 1
