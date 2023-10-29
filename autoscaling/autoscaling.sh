@@ -25,13 +25,16 @@ get_subnet_id(){
 get_subnet_id "public-subnet-01"
 public_subnet_01=$subnet_id
 echo $public_subnet_01
+
 get_subnet_id "public-subnet-02"
-public_subnet_01=$subnet_id
+public_subnet_02=$subnet_id
 echo $public_subnet_02
- subnets_ids="${public_subnet_01},${public_subnet_02}"
-  echo $subnets_ids
- subnets_ids_space="${public_subnet_01} ${public_subnet_02}"
- echo $subnets_ids_space
+
+subnets_ids="${public_subnet_01},${public_subnet_02}"
+echo $subnets_ids
+
+subnets_ids_space="${public_subnet_01} ${public_subnet_02}"
+echo $subnets_ids_space
 
 
 
