@@ -2,7 +2,7 @@
 #get_vpc_id
 get_vpc(){
     #$1 name of vpc
-    vpc_id=$(aws ec2 describe-vpcs --region us-west-2 --filters Name=tag:Name,Values=$1 | grep -oP '(?<="VpcId": ")[^"]*')
+    vpc_id=$(aws ec2 describe-vpcs --region us-east-1 --filters Name=tag:Name,Values=$1 | grep -oP '(?<="VpcId": ")[^"]*')
     if [ "$vpc_id" == "" ]; then
     echo "VPC not found"
     exit 1
