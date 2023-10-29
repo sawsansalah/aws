@@ -11,7 +11,25 @@ get_vpc(){
 
 }
 get_vpc "devops-90-vpc"
+
 #get_subnet_id
+get_subnet_id(){
+    #$1 subnet name
+    subnet_id=$(aws ec2 describe-subnets --region us-west-2 --filters Name=tag:Name,Values=$1 | grep -oP '(?<="SubnetId": ")[^"]*')
+    if [ "$subnet_id" == "" ]; then
+    echo "subnet not found"
+    exit 1
+    fi
+    echo $subnet_id
+}
+get_subnet_id "public-subnet-01"
+public-subnet-01=$subnet_id
+echo $public-subnet-01
+get_subnet_id "public-subnet-02"
+public-subnet-02=$subnet_id
+echo $public-subnet-02
+
+
 #get_secuirty_group_id
 #create_elb
 #create_TG
