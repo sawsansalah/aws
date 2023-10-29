@@ -39,6 +39,16 @@ echo $subnets_ids_space
 
 
 #get_secuirty_group_id
+get_secuirty_group_id(){
+    #$1 name of security group
+  secuirty_group_id=$(aws ec2 describe-security-groups  --region us-east-1 --filters Name=tag:Name,Values=$1 | grep -oP '(?<="GroupId": ")[^"]*')
+   if [ "$secuirty_group_id" == "" ]; then
+    echo "secuirty group not found"
+    exit 1
+    fi
+    echo $secuirty_group_id 
+}
+get_secuirty_group_id "Devops90-SG"
 #create_elb
 #create_TG
 #create_listener
