@@ -52,7 +52,8 @@ get_secuirty_group_id "Devops90-SG"
 #create_elb
 create_elb(){
 
-    elb_check=$(aws elbv2 describe-load-balancers --load-balancer-name devops90-nlp  --region us-east-1 --query "LoadBalancers[?LoadBalancerName == 'devops90-nlp']" | grep -oP '(?<="LoadBalancerArn": ")[^"]*') 
+    elb_check=$(aws elbv2 describe-load-balancers --region us-east-1 --query "LoadBalancers[?LoadBalancerName == 'devops90-nlp']" | grep -oP '(?<="LoadBalancerArn": ")[^"]*')
+
     if [ "$elb_check" == "" ]; then
         echo "LB will be created "
         LB_ARN=$(aws elbv2 create-load-balancer --name devops90-nlp --region us-east-1 --type network --subnets $subnets_ids_space --security-groups $secuirty_group_id | grep -oP '(?<="LoadBalancerArn": ")[^"]*' )
