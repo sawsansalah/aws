@@ -116,7 +116,7 @@ create_autoscale(){
                 --max-size 5 \
                 --vpc-zone-identifier "$subnets_ids"
 
-        asg_arn=$(aws autoscaling describe-auto-scaling-groups --region us-east-1  --query "AutoScalingGroups[?AutoScalingGroupName == 'devops90-autoscale']"| grep -oP '(?<="AutoScalingGroupARN": ")[^"]*') 
+        asg_arn=$(aws autoscaling describe-auto-scaling-groups --region us-east-1  --query "AutoScalingGroups[?AutoScalingGroupName == '']"| grep -oP '(?<="AutoScalingGroupARN": ")[^"]*') 
         if [ "$asg_arn" == " " ]; then
             echo "Error in created SG"
             exit 1
@@ -141,7 +141,7 @@ EOF
 )
     config=$( echo $config | tr -d '\n' | tr -d ' ')
 
-    aws autoscaling put-scaling-policy --auto-scaling-group-name devops90-autoscale \
+    aws autoscaling put-scaling-policy --region us-east-1 --auto-scaling-group-name devops90-autoscale \
   --policy-name cpu10-target-tracking-scaling-policy \
   --policy-type TargetTrackingScaling \
   --target-tracking-configuration $config
