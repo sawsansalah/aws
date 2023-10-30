@@ -64,6 +64,8 @@ create_elb(){
     fi
     echo $LB_ARN
 }
+create_elb "devops90-nlp"
+
 #create_TG
 #create_listener
 #create_autoscaling_group
