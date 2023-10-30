@@ -97,5 +97,6 @@ create_listener(){
    echo $listeners_arn   
     
 }
+create_listener
 #create_autoscaling_group
 #create_Scaling_poilcy
