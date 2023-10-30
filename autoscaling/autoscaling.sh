@@ -71,7 +71,7 @@ create_elb
 #create_TG
 create_TG(){
     
-    tg_check=$(aws elbv2 describe-target-groups --names  devops90-Tg --region us-east-1 --query "TargetGroupName[?TargetGroupName == 'devops90-Tg']" | grep -oP '(?<="TargetGroupArn": ")[^"]*') 
+    tg_check=$(aws elbv2 describe-target-groups --region us-east-1  --query "TargetGroups[?TargetGroupName == 'devops90-Tg']"| grep -oP '(?<="TargetGroupArn": ")[^"]*') 
     if [ "$tg_check" == "" ]; then
        echo "TG will be created"
        TG_ARN=$(aws elbv2 create-target-group --region us-east-1 --name devops90-Tg --protocol HTTP --port 8002 --vpc-id $vpc_id | grep -oP '(?<="TargetGroupArn": ")[^"]*') 
