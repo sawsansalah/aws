@@ -94,6 +94,7 @@ create_listener(){
       exit 1 
 
    fi 
+   echo $listeners_arn   
     
 }
 #create_autoscaling_group
