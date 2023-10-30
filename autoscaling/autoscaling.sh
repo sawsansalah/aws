@@ -99,4 +99,30 @@ create_listener(){
 }
 create_listener
 #create_autoscaling_group
+create_autoscale(){
+    as_check=$(aws autoscaling describe-auto-scaling-groups --region us-east-1  --query "AutoScalingGroups[?AutoScalingGroupName == 'devops90-autoscale']"| grep -oP '(?<="AutoScalingGroupARN": ")[^"]*') 
+  echo "asg will be created!"
+        if [ "$check_asg" == "" ]; then
+    
+            aws autoscaling create-auto-scaling-group \
+                --auto-scaling-group-name devops90-autoscale \
+                --region us-east-1 \
+                --launch-template LaunchTemplateName=srv02-template \
+                --target-group-arns $TG_ARN \
+                --health-check-type ELB \
+                --health-check-grace-period 120 \
+                --min-size 2 \
+                --desired-capacity 2 \
+                --max-size 7 \
+                --vpc-zone-identifier "$subnets_ids"
+
+        echo "asg creation done. kinldy check it from the aws console!"
+
+    else
+        echo "asg already exist"
+        asg_arn=$check_asg
+        echo $asg_name
+    fi
+}
+create_autoscale
 #create_Scaling_poilcy
