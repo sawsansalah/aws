@@ -84,7 +84,7 @@ create_TG(){
     fi
     echo $TG_ARN
 }
-create_TG 
+create_TG "devops90-Tg"
 #create_listener
 #create_autoscaling_group
 #create_Scaling_poilcy
