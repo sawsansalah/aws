@@ -100,7 +100,7 @@ create_listener(){
 create_listener
 #create_autoscaling_group
 create_autoscale(){
-    as_check=$(aws autoscaling describe-auto-scaling-groups --region us-east-1  --query "AutoScalingGroups[?AutoScalingGroupName == 'devops90-autoscale']"| grep -oP '(?<="AutoScalingGroupARN": ")[^"]*') 
+    check_asg=$(aws autoscaling describe-auto-scaling-groups --region us-east-1  --query "AutoScalingGroups[?AutoScalingGroupName == 'devops90-autoscale']"| grep -oP '(?<="AutoScalingGroupARN": ")[^"]*') 
   echo "asg will be created!"
         if [ "$check_asg" == "" ]; then
     
@@ -113,15 +113,18 @@ create_autoscale(){
                 --health-check-grace-period 120 \
                 --min-size 2 \
                 --desired-capacity 2 \
-                --max-size 7 \
+                --max-size 5 \
                 --vpc-zone-identifier "$subnets_ids"
 
-        echo "asg creation done. kinldy check it from the aws console!"
-
+        asg_arn=$(aws autoscaling describe-auto-scaling-groups --region us-east-1  --query "AutoScalingGroups[?AutoScalingGroupName == 'devops90-autoscale']"| grep -oP '(?<="AutoScalingGroupARN": ")[^"]*') 
+        if [ "$asg_arn" == " " ]; then
+            echo "Error in created SG"
+            exit 1
+        fi
     else
         echo "asg already exist"
         asg_arn=$check_asg
-        echo $asg_name
+        echo $asg_arn
     fi
 }
 create_autoscale
