@@ -51,10 +51,10 @@ get_secuirty_group_id(){
 get_secuirty_group_id "Devops90-SG"
 #create_elb
 create_elb(){
-    elb_check=$(aws elb describe-load-balancers --load-balancer-name $1  --region us-east-1 --query "LoadBalancers[?LoadBalancerName == 'devops90-nlp']" | grep -oP '(?<="LoadBalancerArn": ")[^"]*') 
+    elb_check=$(aws elb describe-load-balancers --load-balancer-name devops90-nlp  --region us-east-1 --query "LoadBalancers[?LoadBalancerName == 'devops90-nlp']" | grep -oP '(?<="LoadBalancerArn": ")[^"]*') 
     if [ "$elb_check" == "" ]; then
         echo "LB will be created "
-        LB_ARN=$(aws elbv2 create-load-balancer --name $1 --region us-east-1 --type network --subnets $subnets_ids_space --security-groups $secuirty_group_id | grep -oP '(?<="LoadBalancerArn": ")[^"]*' )
+        LB_ARN=$(aws elbv2 create-load-balancer --name devops90-nlp --region us-east-1 --type network --subnets $subnets_ids_space --security-groups $secuirty_group_id | grep -oP '(?<="LoadBalancerArn": ")[^"]*' )
         if [ "$LB_ARN" == "" ]; then
         echo "error in creating LB"
         exit 1
@@ -68,10 +68,10 @@ create_elb "devops90-nlp"
 
 #create_TG
 create_TG(){
-    tg_check=$(aws elbv2 describe-target-groups --names  $1  --region us-east-1 --query "TargetGroupName[?TargetGroupName == 'devops90-Tg']" | grep -oP '(?<="TargetGroupArn": ")[^"]*') 
+    tg_check=$(aws elbv2 describe-target-groups --names  devops90-Tg --region us-east-1 --query "TargetGroupName[?TargetGroupName == 'devops90-Tg']" | grep -oP '(?<="TargetGroupArn": ")[^"]*') 
     if [ "$tg_check" == "" ]; then
        echo "TG will be created"
-       TG_ARN=$(aws elbv2 create-target-group --region us-east-1 --name $1 --protocol HTTP --port 8002 --vpc-id $vpc_id | grep -oP '(?<="TargetGroupArn": ")[^"]*') 
+       TG_ARN=$(aws elbv2 create-target-group --region us-east-1 --name devops90-Tg --protocol HTTP --port 8002 --vpc-id $vpc_id | grep -oP '(?<="TargetGroupArn": ")[^"]*') 
        if ["$TG_ARN" == " " ]; then
           echo "Error in Creating TG" 
           exit 1
@@ -82,7 +82,7 @@ create_TG(){
     fi
     echo $TG_ARN
 }
-create_TG "devops90-Tg"
+create_TG 
 #create_listener
 #create_autoscaling_group
 #create_Scaling_poilcy
