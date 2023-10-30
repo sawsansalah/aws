@@ -129,7 +129,7 @@ create_autoscale
 attach_scaling_policy(){
     config=$(cat << EOF
 {
-    "TargetValue": 50,
+    "TargetValue": 10,
     "PredefinedMetricSpecification": {
          "PredefinedMetricType": "ASGAverageCPUUtilization"
     }
@@ -139,7 +139,7 @@ EOF
     config=$( echo $config | tr -d '\n' | tr -d ' ')
 
     aws autoscaling put-scaling-policy --auto-scaling-group-name devops90-autoscale \
-  --policy-name cpu50-target-tracking-scaling-policy \
+  --policy-name cpu10-target-tracking-scaling-policy \
   --policy-type TargetTrackingScaling \
   --target-tracking-configuration $config
 }
