@@ -143,3 +143,4 @@ EOF
   --policy-type TargetTrackingScaling \
   --target-tracking-configuration $config
 }
+attach_scaling_policy
