@@ -107,7 +107,7 @@ create_autoscale(){
             aws autoscaling create-auto-scaling-group \
                 --auto-scaling-group-name devops90-autoscale \
                 --region us-east-1 \
-                --launch-template LaunchTemplateName=srv02-template \
+                --launch-template LaunchTemplateName=srv-02 \
                 --target-group-arns $TG_ARN \
                 --health-check-type ELB \
                 --health-check-grace-period 120 \
