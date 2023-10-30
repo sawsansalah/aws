@@ -56,7 +56,7 @@ create_elb(){
 
     if [ "$elb_check" == "" ]; then
         echo "LB will be created "
-        LB_ARN=$(aws elbv2 create-load-balancer --name $1 --region us-east-1 --type network --subnets $subnets_ids_space --security-groups $secuirty_group_id | grep -oP '(?<="LoadBalancerArn": ")[^"]*' )
+        LB_ARN=$(aws elbv2 create-load-balancer --name devops90-nlp --region us-east-1 --type network --subnets $subnets_ids_space --security-groups $secuirty_group_id | grep -oP '(?<="LoadBalancerArn": ")[^"]*' )
         if [ "$LB_ARN" == "" ]; then
         echo "error in creating LB"
         exit 1
@@ -66,7 +66,7 @@ create_elb(){
     fi
     echo $LB_ARN
 }
-create_elb "devops90-nlp"
+create_elb 
 
 #create_TG
 create_TG(){
