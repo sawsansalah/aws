@@ -88,7 +88,7 @@ create_TG(){
 create_TG 
 #create_listener
 create_listener(){
-  listeners_arn=$(aws elbv2 create-listener --region us-east-1 --load-balancer-arn "$LB_ARN" --protocol TCP --port 80 --default-actions Type=forward,TargetGroupArn="$TG_ARN" | grep -oP '(?<="ListenerArn": ")[^"]*') 
+    listeners_arn=$(aws elbv2 create-listener --region us-east-1 --load-balancer-arn "$LB_ARN" --protocol TCP --port 80 --default-actions Type=forward,TargetGroupArn="$TG_ARN" | grep -oP '(?<="ListenerArn": ")[^"]*')
    if [ "$listeners_arn" == "" ]; then
       echo "Failed to create listener"
       exit 1 
