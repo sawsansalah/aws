@@ -75,7 +75,7 @@ create_TG(){
     if [ "$tg_check" == "" ]; then
        echo "TG will be created"
        TG_ARN=$(aws elbv2 create-target-group --region us-east-1 --name devops90-Tg --protocol TCP --port 8002 --vpc-id $vpc_id | grep -oP '(?<="TargetGroupArn": ")[^"]*') 
-       if ["$TG_ARN" == " " ]; then
+       if [ "$TG_ARN" == " " ]; then
           echo "Error in Creating TG" 
           exit 1
        fi 
