@@ -52,11 +52,11 @@ get_secuirty_group_id "Devops90-SG"
 #create_elb
 create_elb(){
 
-    elb_check=$(aws elbv2 describe-load-balancers --region us-east-1 --query "LoadBalancers[?LoadBalancerName == 'devops90-nlp']" | grep -oP '(?<="LoadBalancerArn": ")[^"]*')
+    elb_check=$(aws elbv2 describe-load-balancers --region us-east-1 --query "LoadBalancers[?LoadBalancerName == '$1']" | grep -oP '(?<="LoadBalancerArn": ")[^"]*')
 
     if [ "$elb_check" == "" ]; then
         echo "LB will be created "
-        LB_ARN=$(aws elbv2 create-load-balancer --name devops90-nlp --region us-east-1 --type network --subnets $subnets_ids_space --security-groups $secuirty_group_id | grep -oP '(?<="LoadBalancerArn": ")[^"]*' )
+        LB_ARN=$(aws elbv2 create-load-balancer --name "$1" --region us-east-1 --type network --subnets $subnets_ids_space --security-groups $secuirty_group_id | grep -oP '(?<="LoadBalancerArn": ")[^"]*' )
         if [ "$LB_ARN" == "" ]; then
         echo "error in creating LB"
         exit 1
@@ -66,15 +66,15 @@ create_elb(){
     fi
     echo $LB_ARN
 }
-create_elb 
+create_elb "devops90-nlp"
 
 #create_TG
 create_TG(){
     
-    tg_check=$(aws elbv2 describe-target-groups --region us-east-1  --query "TargetGroups[?TargetGroupName == 'devops90-Tg']"| grep -oP '(?<="TargetGroupArn": ")[^"]*') 
+    tg_check=$(aws elbv2 describe-target-groups --region us-east-1  --query "TargetGroups[?TargetGroupName == '$1']"| grep -oP '(?<="TargetGroupArn": ")[^"]*') 
     if [ "$tg_check" == "" ]; then
        echo "TG will be created"
-       TG_ARN=$(aws elbv2 create-target-group --region us-east-1 --name devops90-Tg --protocol TCP --port 8002 --vpc-id $vpc_id | grep -oP '(?<="TargetGroupArn": ")[^"]*') 
+       TG_ARN=$(aws elbv2 create-target-group --region us-east-1 --name "$1" --protocol TCP --port 8002 --vpc-id $vpc_id | grep -oP '(?<="TargetGroupArn": ")[^"]*') 
        if [ "$TG_ARN" == " " ]; then
           echo "Error in Creating TG" 
           exit 1
@@ -100,12 +100,12 @@ create_listener(){
 create_listener
 #create_autoscaling_group
 create_autoscale(){
-    check_asg=$(aws autoscaling describe-auto-scaling-groups --region us-east-1  --query "AutoScalingGroups[?AutoScalingGroupName == 'devops90-autoscale']"| grep -oP '(?<="AutoScalingGroupARN": ")[^"]*') 
+    check_asg=$(aws autoscaling describe-auto-scaling-groups --region us-east-1  --query "AutoScalingGroups[?AutoScalingGroupName == '$!']"| grep -oP '(?<="AutoScalingGroupARN": ")[^"]*') 
   echo "asg will be created!"
         if [ "$check_asg" == "" ]; then
     
             aws autoscaling create-auto-scaling-group \
-                --auto-scaling-group-name devops90-autoscale \
+                --auto-scaling-group-name "$1" \
                 --region us-east-1 \
                 --launch-template LaunchTemplateName=srv-02 \
                 --target-group-arns $TG_ARN \
@@ -127,7 +127,7 @@ create_autoscale(){
         echo $asg_arn
     fi
 }
-create_autoscale
+create_autoscale "devops90-autoscale"
 #create_Scaling_poilcy
 attach_scaling_policy(){
     config=$(cat << EOF
