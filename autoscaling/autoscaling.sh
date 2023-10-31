@@ -85,7 +85,7 @@ create_TG(){
     fi
     echo $TG_ARN
 }
-create_TG 
+create_TG "devops90-TG"
 #create_listener
 create_listener(){
     listeners_arn=$(aws elbv2 create-listener --region us-east-1 --load-balancer-arn "$LB_ARN" --protocol TCP --port 80 --default-actions Type=forward,TargetGroupArn="$TG_ARN" | grep -oP '(?<="ListenerArn": ")[^"]*')
